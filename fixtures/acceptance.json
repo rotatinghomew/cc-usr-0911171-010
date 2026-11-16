@@ -1,0 +1,46 @@
+{
+  "context": {
+    "dimensions": {
+      "ai": "industry-ai"
+    },
+    "capacity": 20,
+    "dimension_versions": {
+      "industry": [
+        {
+          "code": "ai",
+          "surrogate_key": "industry-ai",
+          "valid_from": "2026-01-01"
+        }
+      ],
+      "region": [
+        {
+          "code": "shenyang",
+          "surrogate_key": "region-shenyang",
+          "valid_from": "2026-01-01"
+        }
+      ]
+    }
+  },
+  "items": [
+    {
+      "id": "fact-1",
+      "owner_id": "dataset-1",
+      "natural_key": "job-1",
+      "dimension_code": "ai",
+      "effective_from": "2026-11-16",
+      "values": [
+        56000,
+        79000,
+        11000
+      ],
+      "demand": 1,
+      "amount": "0",
+      "request_key": "acceptance-1",
+      "source": "jobs",
+      "source_key": "job-1",
+      "event_date": "2026-11-16",
+      "industry_code": "ai",
+      "region_code": "shenyang"
+    }
+  ]
+}
