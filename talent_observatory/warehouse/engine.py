@@ -52,6 +52,15 @@ class WarehouseEngineBase:
 
 class WarehouseEngine(WarehouseEngineBase):
     def __init__(self): self.mart=TalentMart()
+    def rank(self,subjects,context):
+        # A batch may carry both an original fact and a later correction for
+        # the same recruitment source.  Rank the effective revision only so a
+        # correction (or a repeated delivery) cannot be counted twice.
+        items=self.normalize(subjects)
+        if any(self.mart.identity(item) is not None for item in items):
+            items=self.mart.select_current(items)
+        results=[self.evaluate(item,context) for item in items]
+        return sorted(results,key=lambda result:(not result.accepted,-result.value,result.key))
     def evaluate(self,item,context):
         if context.get('dimension_versions'):
             key=str(item.get('id','unknown')); dimensions=context['dimension_versions']; ingested=self.mart.ingest([item],dimensions); accepted=bool(ingested['accepted']); facts=ingested['accepted'][0] if accepted else ingested['rejected'][0]; value=sum((decimal.Decimal(str(v)) for v in item.get('values',[]) if v is not None),decimal.Decimal('0')); return AnalysisResult(key,accepted,value,() if accepted else (facts['reason'],),facts)
